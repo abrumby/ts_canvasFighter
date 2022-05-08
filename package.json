@@ -1,0 +1,19 @@
+{
+  "name": "canvasfighter",
+  "version": "1.0.0",
+  "description": "ts fighting game",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Adam Brumby",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^2.6.2"
+  },
+  "devDependencies": {
+    "parcel": "^2.5.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}
