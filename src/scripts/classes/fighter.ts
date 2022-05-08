@@ -11,7 +11,6 @@ class Fighter extends Sprite {
   isAttacking;
   readonly size: Size;
   readonly attackBox: AttackBox;
-  readonly controls;
   readonly keys;
   readonly color;
   readonly gravity = 0.7;
@@ -53,7 +52,6 @@ class Fighter extends Sprite {
     this.color = color;
     this.isJumping = false;
     this.isAttacking = false;
-    this.controls = controls;
     this.keys = {
       left: {
         character: controls[0],
@@ -68,7 +66,7 @@ class Fighter extends Sprite {
         pressed: false,
       },
       attack: {
-        character: controls[4],
+        character: controls[3],
       },
     };
   }
@@ -80,46 +78,35 @@ class Fighter extends Sprite {
   }
 
   handleKeyDown(eventKey) {
-    if (this.controls.includes(eventKey)) {
-      switch (eventKey) {
-        case "a":
-        case "j":
-          this.keys.left.pressed = true;
-          this.lastKey = eventKey;
-          break;
-        case "d":
-        case "l":
-          this.keys.right.pressed = true;
-          this.lastKey = eventKey;
-          break;
-        case "w":
-        case "i":
-          this.keys.jump.pressed = true;
-          break;
-        case "f":
-        case "h":
-          this.attack();
-          break;
-      }
+    switch (eventKey) {
+      case this.keys.left.character:
+        this.keys.left.pressed = true;
+        this.lastKey = eventKey;
+        break;
+      case this.keys.right.character:
+        this.keys.right.pressed = true;
+        this.lastKey = eventKey;
+        break;
+      case this.keys.jump.character:
+        this.keys.jump.pressed = true;
+        break;
+      case this.keys.attack.character:
+        this.attack();
+        break;
     }
   }
 
   handleKeyUp(eventKey) {
-    if (this.controls.includes(eventKey)) {
-      switch (eventKey) {
-        case "a":
-        case "j":
-          this.keys.left.pressed = false;
-          break;
-        case "d":
-        case "l":
-          this.keys.right.pressed = false;
-          break;
-        case "w":
-        case "i":
-          this.keys.jump.pressed = false;
-          break;
-      }
+    switch (eventKey) {
+      case this.keys.left.character:
+        this.keys.left.pressed = false;
+        break;
+      case this.keys.right.character:
+        this.keys.right.pressed = false;
+        break;
+      case this.keys.jump.character:
+        this.keys.jump.pressed = false;
+        break;
     }
   }
 
