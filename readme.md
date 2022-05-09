@@ -28,7 +28,7 @@ Things to implement
 - [x] timer & game over conditions
 - [x] migrated to typescript
 - [ ] Implement Assets
-    - [ ] Background Image
+    - [x] Background Image
     - [ ] Background Animations
     - [ ] Player1 Sprite
     - [ ] Player2 Sprite
