@@ -29,7 +29,7 @@ Things to implement
 - [x] migrated to typescript
 - [ ] Implement Assets
     - [x] Background Image
-    - [ ] Background Animations
+    - [x] Background Animations
     - [ ] Player1 Sprite
     - [ ] Player2 Sprite
     - [ ] Interface Design

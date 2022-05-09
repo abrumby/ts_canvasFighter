@@ -8,6 +8,7 @@ let timer = 20;
 let timerId;
 const resultElement = document.getElementById("result");
 const background = new Sprite({ x: 0, y: 0 }, "../images/backgrounds/background.png");
+const shop = new Sprite({ x: 660, y: 160 }, "../images/objects/shop.png", 2.5, 6);
 const player1 = new Fighter(
   "player1",
   { x: 100, y: 0 },
@@ -48,6 +49,7 @@ function animate() {
   game.context.fillStyle = "black";
   game.context.fillRect(0, 0, game.canvas.width, game.canvas.height);
   background.update();
+  shop.update();
   player1.animate(player2);
   player2.animate(player1);
   gameEnd();
