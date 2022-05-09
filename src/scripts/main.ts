@@ -1,15 +1,37 @@
 import { GameCanvas } from "./classes/canvas";
 import { Fighter } from "./classes/fighter";
+import { Sprite } from "./classes/sprite";
 //import {Coords} from "./classes/interfaces";
-//import {Sprite} from "./classes/sprite";
 
-let game = new GameCanvas();
+const game = new GameCanvas();
 let timer = 20;
 let timerId;
 const resultElement = document.getElementById("result");
-
-const player1 = new Fighter("player1", { x: 100, y: 0 }, { x: 0, y: 0 }, ["a", "d", "w", "f"], "red", { x: 0, y: 0 });
-const player2 = new Fighter("player2", { x: 800, y: 0 }, { x: 0, y: 0 }, ["j", "l", "i", "h"], "green", { x: 50, y: 0 });
+const background = new Sprite({ x: 0, y: 0 }, "../images/backgrounds/background.png");
+const player1 = new Fighter(
+  "player1",
+  { x: 100, y: 0 },
+  { x: 0, y: 0 },
+  ["a", "d", "w", "f"],
+  "red",
+  {
+    x: 0,
+    y: 0,
+  },
+  ""
+);
+const player2 = new Fighter(
+  "player2",
+  { x: 800, y: 0 },
+  { x: 0, y: 0 },
+  ["j", "l", "i", "h"],
+  "green",
+  {
+    x: 50,
+    y: 0,
+  },
+  ""
+);
 
 function decreaseTimer() {
   if (timer > 0) {
@@ -25,6 +47,7 @@ function animate() {
   window.requestAnimationFrame(animate);
   game.context.fillStyle = "black";
   game.context.fillRect(0, 0, game.canvas.width, game.canvas.height);
+  background.update();
   player1.animate(player2);
   player2.animate(player1);
   gameEnd();
@@ -62,4 +85,4 @@ animate();
 eventListeners();
 decreaseTimer();
 
-export {};
+export { game };

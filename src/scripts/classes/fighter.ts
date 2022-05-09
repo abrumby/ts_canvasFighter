@@ -15,8 +15,8 @@ class Fighter extends Sprite {
   readonly color;
   readonly gravity = 0.7;
 
-  constructor(name: string, position: Coords, velocity: Coords, controls: any, color: string, offset: Coords) {
-    super(position);
+  constructor(name: string, position: Coords, velocity: Coords, controls: any, color: string, offset: Coords, imgSrc: string) {
+    super(position, imgSrc);
     this.information = {
       name: name,
       health: 200,
@@ -117,7 +117,12 @@ class Fighter extends Sprite {
     gameCanvas.context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     if (this.isAttacking) {
       gameCanvas.context.fillStyle = "yellow";
-      gameCanvas.context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.size.width, this.attackBox.size.height);
+      gameCanvas.context.fillRect(
+        this.attackBox.position.x,
+        this.attackBox.position.y,
+        this.attackBox.size.width,
+        this.attackBox.size.height
+      );
     }
   }
 
@@ -137,7 +142,7 @@ class Fighter extends Sprite {
   }
 
   private applyGravity() {
-    if (this.position.y + this.information.velocity.y + this.size.height >= gameCanvas.canvas.height) {
+    if (this.position.y + this.information.velocity.y + this.size.height >= gameCanvas.canvas.height - 92) {
       this.information.velocity.y = 0;
     } else {
       this.information.velocity.y += this.gravity;
