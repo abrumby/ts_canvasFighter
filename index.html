@@ -7,25 +7,31 @@
 
 </head>
 <body>
-<div class="topInterfaceContainer">
-  <div class="topInterface">
-    <div class="container1 ">
-      <div id="player1Health" class="player1"></div>
-    </div>
-    <div id="timer" class="timer">
-      10
-    </div>
-    <div class="container2">
-      <div id="player2Health" class="player2"></div>
-    </div>
+<main>
+  <div class="wrapper">
+    <div class="topInterfaceContainer">
+      <div class="topInterface">
+        <div class="container1 ">
+          <div id="player1Health" class="player1"></div>
+        </div>
+        <div class="countdown">
+          <span id="countdown">
+            10
+          </span>
+        </div>
+        <div class="container2">
+          <div id="player2Health" class="player2"></div>
+        </div>
 
+      </div>
+      <div id="result" class="result">
+        Tie
+      </div>
+      <canvas id="game" width="1024" height="576">
+      </canvas>
+    </div>
   </div>
-  <div id="result" class="result">
-    Tie
-  </div>
-  <canvas id="game" width="1024" height="576">
-  </canvas>
-</div>
+</main>
 <script src="src/scripts/main.ts" type="module"></script>
 </body>
 </html>

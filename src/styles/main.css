@@ -1,5 +1,22 @@
 * {
     box-sizing: border-box;
+    font-family: EvilEmpire, sans-serif;
+}
+
+body {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    background: #71717a;
+}
+
+main {
+    position: relative;
+    display: inline-block;
+}
+
+.wrapper {
+    border: 2px solid white;
 }
 
 .topInterfaceContainer {
@@ -51,17 +68,21 @@
     width: 100%
 }
 
-.timer {
+.countdown {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2em;
-    font-family: fantasy;
+    font-size: 6em;
     background-color: red;
     height: 100px;
     width: 100px;
     flex-shrink: 0;
     text-align: center;
+}
+
+.countdown span {
+    margin: auto;
+    padding-left: 10px;
 }
 
 .result {
@@ -74,6 +95,10 @@
     left: 0;
     right: 0;
     display: none;
-    font-size: 2em;
-    font-family: fantasy;
+    font-size: 3em;
+}
+
+@font-face {
+    font-family: EvilEmpire;
+    src: url('../../dist/EvilEmpire-4BBVK.2ab8a4bf.ttf');
 }

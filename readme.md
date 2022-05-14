@@ -9,12 +9,17 @@
 
 Assets Lovingly :gift_heart: created by: 
 ---
+ **Images By**
 
 -[Brullov - Oak Woods](https://brullov.itch.io/oak-woods)
 
 -[luizmelo - Martial Hero](https://luizmelo.itch.io/martial-hero)
 
 -[luizmelo - Martial Hero 2](https://luizmelo.itch.io/martial-hero-2)
+
+**Fonts by**
+
+[Tup Wanders - EvilEmpire](https://www.fontspace.com/tup-wanders)
 
 ---
 
@@ -30,11 +35,15 @@ Things to implement
 - [ ] Implement Assets
     - [x] Background Image
     - [x] Background Animations
-    - [ ] Player1 Sprite
-    - [ ] Player2 Sprite
+    - [ ] Player Sprites
+        - [x] Idle
+        - [x] Run
+        - [x] Jump
+        - [x] Attack
+        - [ ] Hit Recognition
     - [ ] Interface Design
     - [ ] Interface Animations
-    - [ ] New Font
+    - [x] New Font
 - [ ] Implement Sound
     - [ ] Player Attacks
     - [ ] Player Damage

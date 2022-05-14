@@ -6,17 +6,30 @@ const gameCanvas = new GameCanvas();
 
 class Fighter extends Sprite {
   information: Information;
-  isJumping;
-  lastKey;
-  isAttacking;
+  isJumping: boolean;
+  isAttacking: boolean;
+  lastKey: string;
+  sprites: any;
   readonly size: Size;
   readonly attackBox: AttackBox;
-  readonly keys;
-  readonly color;
+  readonly keys: any;
   readonly gravity = 0.7;
 
-  constructor(name: string, position: Coords, velocity: Coords, controls: any, color: string, offset: Coords, imgSrc: string) {
-    super(position, imgSrc);
+  constructor(
+    name: string,
+    position: Coords,
+    velocity: Coords,
+    controls: any,
+    imgSrc: string,
+    scale: number = 1,
+    offset: Coords,
+    framesMax: number = 1,
+    framesCurrent: number,
+    framesElapsed: number,
+    framesHold: number,
+    sprites: any
+  ) {
+    super(position, imgSrc, scale, offset, framesMax, framesCurrent, framesElapsed, framesHold);
     this.information = {
       name: name,
       health: 200,
@@ -49,7 +62,6 @@ class Fighter extends Sprite {
         height: 50,
       },
     };
-    this.color = color;
     this.isJumping = false;
     this.isAttacking = false;
     this.keys = {
@@ -69,15 +81,22 @@ class Fighter extends Sprite {
         character: controls[3],
       },
     };
+    this.sprites = sprites;
+    for (const sprite in this.sprites) {
+      sprites[sprite].image = new Image();
+      sprites[sprite].image.src = sprites[sprite].imgSrc;
+    }
   }
 
-  animate(target: Fighter) {
-    this.update();
+  update(target: Fighter): void {
+    this.updateSprite();
+    this.drawAttackBox();
     this.move();
+    this.updatePosition();
     this.collision(target);
   }
 
-  handleKeyDown(eventKey) {
+  handleKeyDown(eventKey): void {
     switch (eventKey) {
       case this.keys.left.character:
         this.keys.left.pressed = true;
@@ -96,7 +115,7 @@ class Fighter extends Sprite {
     }
   }
 
-  handleKeyUp(eventKey) {
+  handleKeyUp(eventKey): void {
     switch (eventKey) {
       case this.keys.left.character:
         this.keys.left.pressed = false;
@@ -110,11 +129,9 @@ class Fighter extends Sprite {
     }
   }
 
-  override draw() {
+  drawAttackBox(): void {
     this.attackBox.position.x = this.position.x - this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y - this.attackBox.offset.y;
-    gameCanvas.context.fillStyle = this.color;
-    gameCanvas.context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     if (this.isAttacking) {
       gameCanvas.context.fillStyle = "yellow";
       gameCanvas.context.fillRect(
@@ -126,12 +143,48 @@ class Fighter extends Sprite {
     }
   }
 
-  override update() {
-    this.draw();
-    this.updatePosition();
+  switchSprite(sprite): void {
+    if (this.image === this.sprites.attack1.image && this.framesCurrent < this.sprites.attack1.framesMax - 1) {
+      return;
+    }
+
+    if (this.image === this.sprites.attack2.image && this.framesCurrent < this.sprites.attack2.framesMax - 1) {
+      return;
+    }
+
+    switch (sprite) {
+      case this.sprites.attack1.name:
+        this.framesCurrent = 0;
+        this.image = this.sprites.attack1.image;
+        this.framesMax = this.sprites.attack1.framesMax;
+        break;
+      case this.sprites.attack2.name:
+        this.framesCurrent = 0;
+        this.image = this.sprites.attack2.image;
+        this.framesMax = this.sprites.attack2.framesMax;
+        break;
+      case this.sprites.idle.name:
+        this.image = this.sprites.idle.image;
+        this.framesMax = this.sprites.idle.framesMax;
+        break;
+      case this.sprites.run.name:
+        this.image = this.sprites.run.image;
+        this.framesMax = this.sprites.run.framesMax;
+        break;
+      case this.sprites.jump.name:
+        this.framesCurrent = 0;
+        this.image = this.sprites.jump.image;
+        this.framesMax = this.sprites.jump.framesMax;
+        break;
+      case this.sprites.fall.name:
+        this.framesCurrent = 0;
+        this.image = this.sprites.fall.image;
+        this.framesMax = this.sprites.fall.framesMax;
+        break;
+    }
   }
 
-  private updatePosition() {
+  private updatePosition(): void {
     this.applyGravity();
     this.applyBounds();
     this.position.y += this.information.velocity.y;
@@ -141,15 +194,16 @@ class Fighter extends Sprite {
     }
   }
 
-  private applyGravity() {
+  private applyGravity(): void {
     if (this.position.y + this.information.velocity.y + this.size.height >= gameCanvas.canvas.height - 92) {
       this.information.velocity.y = 0;
+      this.position.y = 334;
     } else {
       this.information.velocity.y += this.gravity;
     }
   }
 
-  private applyBounds() {
+  private applyBounds(): void {
     if (this.position.x + this.information.velocity.x + this.size.width >= gameCanvas.canvas.width) {
       this.information.velocity.x = 0;
     }
@@ -163,14 +217,15 @@ class Fighter extends Sprite {
     }
   }
 
-  private attack() {
+  private attack(): void {
     this.isAttacking = true;
+    this.switchSprite("attack1");
     setTimeout(() => {
       this.isAttacking = false;
     }, 100);
   }
 
-  private collision(target: Fighter) {
+  private collision(target: Fighter): void {
     if (
       this.attackBox.position.x + this.attackBox.size.width >= target.position.x &&
       this.attackBox.position.x <= target.position.x + target.size.width &&
@@ -184,20 +239,28 @@ class Fighter extends Sprite {
     }
   }
 
-  private move() {
+  private move(): void {
     this.information.velocity.x = 0;
     if (this.keys.left.pressed && this.lastKey === this.keys.left.character) {
       this.information.velocity.x = -5;
-    }
-    if (this.keys.right.pressed && this.lastKey === this.keys.right.character) {
+      this.switchSprite("run");
+    } else if (this.keys.right.pressed && this.lastKey === this.keys.right.character) {
       this.information.velocity.x = 5;
+      this.switchSprite("run");
+    } else {
+      this.switchSprite("idle");
     }
     if (this.keys.jump.pressed) {
       this.jump();
     }
+    if (this.information.velocity.y < 0) {
+      this.switchSprite("jump");
+    } else if (this.information.velocity.y > 0) {
+      this.switchSprite("fall");
+    }
   }
 
-  private jump() {
+  private jump(): void {
     if (!this.isJumping) {
       this.isJumping = true;
       this.information.velocity.y = -20;
